@@ -1,0 +1,354 @@
+:root {
+  /* Palette "Warm Modern". Les cinq principales et les secondaires sont
+     reprises telles quelles de la charte. Les quatre couleurs d'etat sont
+     claires : elles servent de signal (pastille, trait, aplat) et ne passent
+     pas 4.5:1 en texte sur le creme, d'ou les variantes *-text assombries. */
+
+  /* Principales */
+  --bg: #fff8f0;        /* Creme chaud */
+  --panel: #ffffff;
+  --text: #2d2420;      /* Brun fonce */
+  --accent: #c65d3a;    /* Terracotta */
+  --accent-2: #e8955a;  /* Orange doux */
+  --gold: #e9b949;      /* Jaune dore */
+
+  /* Secondaires */
+  --panel-2: #f6e7d9;   /* Sable : survol, surfaces secondaires, boutons */
+  --border: #f1dccb;    /* Beige : traits de separation */
+  --sage: #a7b48f;      /* Vert sauge */
+  --bluegrey: #8ca3b4;  /* Bleu gris */
+  --warmgrey: #d9d2c7;  /* Gris chaud */
+  --muted: #7d6a5c;     /* Texte secondaire (4.9:1) */
+
+  /* Etats : signal */
+  --success: #4caf7d;
+  --alert: #e9b949;
+  --error: #e57373;
+  --info: #5b9bd5;
+  /* Etats : texte et icone, >= 4.5:1 sur le creme */
+  --success-text: #367d59;
+  --alert-text: #8b6e2b;
+  --error-text: #ae5757;
+  --info-text: #4575a1;
+
+  /* Aplats d'etat : une nuance, jamais une couleur saturee */
+  --tint-accent: rgba(198, 93, 58, .09);
+  --tint-alert: rgba(233, 185, 73, .18);
+  --tint-success: rgba(76, 175, 125, .14);
+  --tint-error: rgba(229, 115, 115, .14);
+  --tint-info: rgba(91, 155, 213, .14);
+  /* Traits d'etat : discrets, derives de la couleur de signal */
+  --line-accent: rgba(198, 93, 58, .38);
+  --line-alert: rgba(233, 185, 73, .65);
+  --line-success: rgba(76, 175, 125, .5);
+  --line-error: rgba(229, 115, 115, .5);
+  --line-info: rgba(91, 155, 213, .5);
+
+  /* Elevations : la charte pose des cartes blanches a coins ronds, sans trait
+     appuye ; l'ombre fait la separation, le trait beige ne la souligne que. */
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow-card: 0 1px 2px rgba(45, 36, 32, .04), 0 2px 8px rgba(45, 36, 32, .05);
+  --shadow-pop: 0 8px 24px rgba(45, 36, 32, .12);
+
+  color-scheme: light;
+  /* Montserrat, importee dans main.tsx. Echelle de la charte :
+     H1 32/40 bold, H2 24/32 semibold, H3 18/26 semibold,
+     corps 16/24 regular, legende 14/20 medium. */
+  font-family: Montserrat, "Segoe UI", system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+* { box-sizing: border-box; scrollbar-color: var(--border) transparent; scrollbar-width: thin; }
+::selection { background: var(--tint-accent); }
+/* Respecte le reglage systeme "reduire les animations". */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+body { margin: 0; background: var(--bg); color: var(--text); }
+h1 { font-size: 32px; line-height: 40px; font-weight: 700; margin: 0 0 16px; }
+h2 { font-size: 24px; line-height: 32px; font-weight: 600; margin: 0 0 12px; }
+h3, h4 { font-size: 18px; line-height: 26px; font-weight: 600; margin: 0 0 8px; }
+
+/* Boutons de la charte : principal terracotta plein, secondaire cercle du meme
+   ton, texte sans contour. Le defaut est le secondaire. */
+button {
+  font: inherit; font-weight: 500; color: var(--accent);
+  background: var(--panel); border: 1px solid var(--line-accent);
+  border-radius: var(--radius-sm); padding: 8px 16px; cursor: pointer;
+  transition: background .12s, border-color .12s;
+}
+button:hover:not(:disabled) { background: var(--tint-accent); border-color: var(--accent); }
+button:active:not(:disabled) { background: rgba(198, 93, 58, .18); }
+button:disabled { background: var(--panel-2); border-color: var(--border); color: var(--muted); opacity: 1; cursor: default; }
+/* 600 : le blanc sur terracotta est a 3,9:1, la graisse compense. */
+.btn-primary { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+.btn-primary:hover:not(:disabled) { background: #b45232; border-color: #b45232; }
+.btn-primary:active:not(:disabled) { background: #a04729; }
+
+input, select, textarea {
+  font: inherit; color: var(--text); background: var(--panel);
+  border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 9px 12px;
+}
+input::placeholder, textarea::placeholder { color: var(--muted); }
+/* Le halo remplace le contour natif ; :focus-visible ne se declenche qu'au
+   clavier, donc la souris ne le voit jamais. */
+input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--tint-accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+a:focus-visible, button:focus-visible { border-radius: var(--radius-sm); }
+/* Controles natifs teintes : la charte les montre tous en terracotta. */
+progress, meter, input[type="range"] { accent-color: var(--accent); }
+/* Cases et radios : il faut defaire la bordure, le fond et le rayon herites de
+   la regle "input" ci-dessus, sinon un cadre vide se dessine autour du carre
+   natif. La cible reste petite, donc toute l'etiquette est cliquable. */
+input[type="checkbox"], input[type="radio"] {
+  accent-color: var(--accent);
+  width: 18px; height: 18px; flex: none;
+  padding: 0; margin: 0; border: none; background: none; border-radius: 0;
+  cursor: pointer;
+}
+label:has(> input[type="checkbox"]), label:has(> input[type="radio"]) { cursor: pointer; }
+
+/* ------------------------------------------------- Socle commun des ecrans
+   Ces classes sont utilisees par le hub ET par les plugins ; elles vivaient
+   dans la feuille d'un plugin de jeu, donc l'ecran Outils s'affichait casse quand
+   ce plugin n'etait pas installe. */
+.spacer { flex: 1; }
+.muted { color: var(--muted); }
+.hint { color: var(--muted); font-size: 14px; line-height: 20px; font-weight: 500; margin: 0 0 12px; }
+.empty { text-align: center; color: var(--muted); padding: 48px 16px; }
+.btn-ghost { background: transparent; border-color: transparent; }
+.btn-ghost:hover:not(:disabled) { background: var(--tint-accent); border-color: transparent; }
+.btn-ok { color: var(--success-text); border-color: var(--success); }
+.btn-danger { color: #fff; background: var(--error-text); border-color: var(--error-text); }
+.btn-remove { padding: 4px 10px; font-size: 14px; color: var(--muted); background: transparent; border-color: transparent; }
+.btn-remove.is-armed { color: #fff; background: var(--error-text); border-color: var(--error-text); }
+.is-pinned { color: var(--accent); border-color: var(--border); }
+
+/* Tableaux : socle commun. Ces classes ne vivaient que dans la feuille d'un plugin de jeu, donc le tableau d'un autre plugin s'affichait en HTML brut
+   quand ce plugin n'etait pas installe. `.table-compact` reste chez lui. */
+.table-wrap { overflow-x: auto; border-radius: var(--radius); background: var(--panel); box-shadow: var(--shadow-card); }
+.table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.table th {
+  text-align: left; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em;
+  color: var(--muted); padding: 10px 12px; border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; background: var(--panel); z-index: 1;
+}
+.table td { padding: 10px 12px; border-bottom: 1px solid var(--border); }
+.table tbody tr:last-child td { border-bottom: 0; }
+.table .num { text-align: right; white-space: nowrap; }
+
+.outil-barre {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; margin-bottom: 12px;
+  position: sticky; top: 0; z-index: 5; background: var(--bg); padding: 4px 0 10px;
+}
+.toolbar-title { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; flex: 1; min-width: 200px; }
+.toolbar-title h2 { margin: 0; }
+.toolbar-actions { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+
+/* Telephone (Android 15+, bord a bord) : ne pas passer sous les barres systeme ; 0 sur PC. */
+.layout {
+  display: flex; height: 100vh;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+.content { flex: 1; min-width: 0; overflow: auto; padding: 24px 28px; }
+.placeholder { color: var(--muted); padding: 24px; }
+
+/* Sidebar */
+.sidebar {
+  width: 236px; flex: none; background: var(--panel); border-right: 1px solid var(--border);
+  padding: 16px 12px; display: flex; flex-direction: column; overflow-y: auto; overscroll-behavior: contain;
+}
+.sidebar-title { font-weight: 700; color: var(--accent); padding: 4px 10px 16px; font-size: 18px; letter-spacing: .01em; }
+.sidebar-group {
+  display: flex; align-items: center; gap: 4px; width: 100%; background: none; border: 0;
+  color: var(--muted); font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 14px 10px 6px; cursor: pointer;
+}
+.sidebar-group:hover { color: var(--text); }
+/* Sous-groupe (champ subcategory du manifest) : en retrait, sans capitales. */
+.sidebar-subgroup { padding: 8px 10px 4px 18px; text-transform: none; letter-spacing: 0; }
+.cat-group.is-collapsed > .cat-body { display: none; }
+/* Teinte des icones par categorie : les trois couleurs de marque, assombries
+   quand il le faut pour rester au-dessus de 3:1 sur le fond creme. */
+.cat-group[data-cat="games"] { --cat: #c65d3a; }
+.cat-group[data-cat="office"] { --cat: #c97b34; }
+.cat-group[data-cat="family"] { --cat: #b08618; }
+.sidebar-icon, .store-icon { color: var(--cat, var(--muted)); }
+.sidebar-empty { color: var(--muted); padding: 8px 10px; }
+.sidebar-item {
+  display: flex; align-items: center; gap: 8px; padding: 8px 10px; min-height: 40px;
+  border-radius: var(--radius-sm); color: var(--text); font-size: 15px; font-weight: 500; text-decoration: none;
+}
+.sidebar-item:hover { color: var(--accent); }
+.sidebar-item.active { color: var(--accent); font-weight: 600; }
+.sidebar-item.active .sidebar-icon { color: var(--accent); }
+.sidebar-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* Le bouton de lancement est frere du lien, pas dedans : il garde sa propre cible. */
+.sidebar-row { display: flex; align-items: center; gap: 2px; }
+.sidebar-row .sidebar-item { flex: 1; min-width: 0; }
+.health-dot { width: 9px; height: 9px; border-radius: 50%; flex: none; }
+.health-up { background: var(--success); box-shadow: 0 0 6px var(--success); }
+/* Carre pour "hors ligne" : la couleur seule ne suffit pas a distinguer les etats. */
+.health-down { background: var(--error); border-radius: 2px; }
+.health-unknown { background: var(--warmgrey); }
+
+/* Doigt : 48 px de cible, la recommandation Android. La souris garde le compact. */
+@media (pointer: coarse) {
+  button, .sidebar-item, input:not([type="checkbox"]):not([type="radio"]), select { min-height: 48px; }
+  /* La case garde sa taille ; c'est l'etiquette qui fait les 48 px de cible. */
+  label:has(> input[type="checkbox"]), label:has(> input[type="radio"]) {
+    display: inline-flex; align-items: center; gap: 8px; min-height: 48px;
+  }
+  .btn-remove, .btn-launch.compact { min-height: 44px; }
+  .store-actions { gap: 10px; }
+}
+
+/* Telephone : la sidebar devient un tiroir, le contenu prend toute la largeur. */
+.layout.is-mobile .sidebar {
+  position: fixed; top: 0; bottom: 0; left: 0; z-index: 30; width: min(280px, 82vw);
+  transform: translateX(-100%); transition: transform .18s ease-out;
+  box-shadow: var(--shadow-pop); padding-top: calc(16px + env(safe-area-inset-top));
+}
+.layout.is-mobile .sidebar.is-open { transform: none; }
+.drawer-voile { position: fixed; inset: 0; z-index: 25; background: rgba(45, 36, 32, .35); }
+.topbar { display: flex; align-items: center; gap: 8px; margin: -4px 0 12px; }
+.topbar-menu { padding: 10px; color: var(--text); }
+.topbar-titre { font-size: 18px; font-weight: 700; color: var(--accent); }
+
+/* Ecran etroit : la carte d'un outil s'empile au lieu de serrer ses boutons. */
+@media (max-width: 560px) {
+  .store-card { flex-wrap: wrap; }
+  .store-info { flex-basis: 100%; }
+  .store-actions { width: 100%; }
+  .store-actions button { flex: 1; }
+}
+
+/* Fenetre etroite (posee a cote du jeu) : sidebar reduite aux icones. */
+@media (max-width: 760px) {
+  .sidebar { width: 52px; padding: 12px 4px; }
+  .sidebar-title, .sidebar-name, .sidebar-row .launch { display: none; }
+  .sidebar-item { flex-direction: column; gap: 4px; padding: 8px 4px; }
+  /* Le chevron reste cliquable : sinon un groupe replie ne peut plus etre rouvert. */
+  .sidebar-group { justify-content: center; padding: 8px 0 2px; }
+  .sidebar-group span { display: none; }
+  .content { padding: 12px; }
+
+  /* Le tiroir du telephone est large : il garde les libelles, contrairement au
+     rail de la fenetre etroite posee a cote du jeu. */
+  .layout.is-mobile .sidebar-title, .layout.is-mobile .sidebar-name,
+  .layout.is-mobile .sidebar-row .launch, .layout.is-mobile .sidebar-group span { display: revert; }
+  .layout.is-mobile .sidebar-item { flex-direction: row; gap: 8px; padding: 10px; }
+  .layout.is-mobile .sidebar-group { justify-content: flex-start; padding: 14px 10px 6px; }
+  .layout.is-mobile .sidebar-subgroup { padding: 8px 10px 4px 18px; }
+}
+
+/* Lancement backend */
+.launch { display: inline-flex; flex-direction: column; align-items: center; gap: 6px; }
+.btn-launch { color: var(--success-text); border-color: var(--success); background: transparent; }
+.btn-launch.is-running { color: var(--error-text); border-color: var(--error); }
+.btn-launch.compact { padding: 0 8px; font-size: 11px; line-height: 22px; }
+.disconnected .btn-launch { margin-top: 16px; padding: 8px 18px; font-size: 15px; }
+.launch-error { color: var(--error-text); font-size: 12px; max-width: 480px; }
+
+/* Deconnecte */
+.disconnected { display: grid; place-items: center; text-align: center; height: 100%; align-content: center; gap: 4px; }
+.disconnected-icon { font-size: 48px; }
+.disconnected h2 { color: var(--error-text); margin: 8px 0; }
+.disconnected p { color: var(--muted); margin: 0; }
+
+/* ---------------------------------------------------- Fenetre flottante */
+html.is-overlay, html.is-overlay body { background: transparent; overflow: hidden; }
+.overlay {
+  --overlay-alpha: .9;
+  height: 100vh; display: flex; flex-direction: column;
+  background: rgba(255, 248, 240, var(--overlay-alpha));
+  border: 1px solid var(--border); border-radius: 8px; overflow: hidden;
+}
+.overlay-bar {
+  display: flex; align-items: center; gap: 8px; padding: 4px 6px 4px 10px; flex: none;
+  background: rgba(245, 230, 216, calc(var(--overlay-alpha) + .05)); border-bottom: 1px solid rgba(230, 211, 194, .9);
+  cursor: move; user-select: none;
+}
+.overlay-title { flex: 1; min-width: 0; font-size: 12px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.overlay-pause { color: var(--alert-text); font-weight: 700; }
+.overlay-opacity { width: 70px; padding: 0; accent-color: var(--accent); cursor: pointer; }
+.overlay-bar .btn-ghost { padding: 0 6px; font-size: 13px; }
+.overlay-alert { font-size: 11px; color: var(--alert-text); background: var(--tint-alert); padding: 4px 10px; flex: none; }
+.overlay-error { color: var(--error-text); background: var(--tint-error); }
+.overlay-body { flex: 1; overflow: auto; padding: 4px 6px 8px; }
+.overlay-body .hint { padding: 8px 6px; margin: 0; }
+/* Une fenetre flottante doit laisser voir ce qu'il y a derriere : les fonds
+   pleins du socle (conteneur de tableau, en-tetes collants) suivent l'opacite
+   de la fenetre, sinon le curseur ne joue que sur les marges. */
+.overlay .table-wrap { background: transparent; box-shadow: none; }
+.overlay .table th { background: rgba(245, 230, 216, var(--overlay-alpha)); }
+.toasts { position: fixed; right: 16px; bottom: 16px; display: grid; gap: 6px; z-index: 20; pointer-events: none; max-width: min(420px, calc(100vw - 32px)); }
+.toast { padding: 12px 16px; border-radius: var(--radius-sm); background: var(--panel); border: 1px solid var(--border); box-shadow: var(--shadow-pop); font-size: 14px; }
+.toast-ok { border-left: 3px solid var(--success); }
+.toast-err { border-left: 3px solid var(--error); }
+
+/* Checklist */
+
+/* --- Outil devenu plugin : bandeau d'installation (voir migration.ts) --- */
+.migration-notice {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 8px 14px; margin-bottom: 16px;
+  padding: 14px 16px; border: 1px solid var(--line-alert); border-radius: var(--radius);
+  background: var(--tint-alert); font-size: 13px;
+}
+.migration-text { flex: 1; min-width: 220px; }
+.migration-error { flex-basis: 100%; color: var(--error-text); }
+.migration-actions { display: flex; gap: 6px; flex: none; }
+
+/* --- Ecran Outils (catalogue de plugins) --- */
+.store-list { display: grid; gap: 12px; max-width: 800px; }
+.store-card { display: flex; align-items: center; gap: 16px; padding: 16px 18px; background: var(--panel); border: 0; border-radius: var(--radius); box-shadow: var(--shadow-card); }
+.store-group { display: flex; align-items: center; gap: 4px; background: none; border: 0; padding: 4px 0; font-size: 12px; text-transform: uppercase; color: var(--muted); cursor: pointer; }
+.store-group:hover { color: var(--text); }
+.store-subgroup { text-transform: none; font-weight: 600; }
+.store-list .cat-body > .cat-group { display: grid; gap: 10px; }
+.cat-body { display: grid; gap: 10px; }
+.sidebar .cat-body { display: block; }
+.store-icon { font-size: 26px; display: flex; justify-content: center; flex: none; width: 36px; text-align: center; }
+.store-info { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.store-name { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 10px; font-weight: 600; }
+.store-version, .store-size { font-weight: 500; font-size: 14px; }
+.store-actions { display: flex; gap: 6px; flex: none; }
+.store-badge { display: inline-block; min-width: 18px; padding: 0 6px; border-radius: 9px; background: var(--accent); color: #fff; font-size: 11px; font-weight: 600; line-height: 18px; text-align: center; }
+/* margin-top auto : "Outils" reste en bas de la colonne, meme avec peu de plugins. */
+.sidebar-store { margin-top: auto; border-top: 1px solid var(--border); padding-top: 12px; border-radius: 0; }
+
+/* Connexion Nextcloud et espace d'un plugin (components/SyncSetup.tsx) */
+.sync-setup { max-width: 560px; }
+.sync-setup h4 { margin: 16px 0 6px; }
+.sync-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.sync-row input:not([type="radio"]) { flex: 1; min-width: 200px; }
+/* Les erreurs contiennent des URL sans espace : couper, sinon la page deborde sur telephone. */
+.sync-error { color: var(--error-text); overflow-wrap: anywhere; }
+.sync-setup .muted { color: var(--muted); }
+
+/* Confirmations passageres (src/toast.ts) : au-dessus de tout, hors du flux,
+   pour etre vues meme si l'ecran est defile loin du bouton qui les declenche. */
+.toasts {
+  position: fixed; z-index: 100; left: 50%; bottom: 24px; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  width: max-content; max-width: min(520px, calc(100vw - 32px)); pointer-events: none;
+}
+.toast {
+  pointer-events: auto; cursor: pointer;
+  padding: 10px 16px; border-radius: var(--radius-sm); border: 1px solid var(--line-accent);
+  background: var(--panel); color: var(--text); box-shadow: 0 6px 20px rgb(0 0 0 / 22%);
+  overflow-wrap: anywhere;
+  animation: toast-entree 140ms ease-out;
+}
+.toast-erreur { color: var(--error-text); border-color: var(--line-error); background: var(--tint-error); }
+@keyframes toast-entree { from { opacity: 0; transform: translateY(8px); } }
+@media (prefers-reduced-motion: reduce) { .toast { animation: none; } }
+
+/* Bandeaux (hub et plugins) */
+.banner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; padding: 12px 16px; border-radius: var(--radius-sm); margin-bottom: 12px; border: 1px solid; }
+.banner-info { color: var(--text); background: var(--tint-accent); border-color: var(--line-accent); }
+.banner-warn { color: var(--text); background: var(--tint-alert); border-color: var(--line-alert); }
+.banner-alert { color: var(--error-text); background: var(--tint-error); border-color: var(--line-error); }
+.banner-action { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.badge { color: var(--alert-text); font-weight: 600; }

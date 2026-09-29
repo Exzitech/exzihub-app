@@ -1,0 +1,10 @@
+{
+  "id": "sticky-notes",
+  "name": "Sticky Notes",
+  "icon": "sticky-note",
+  "category": "office",
+  "version": "0.4.0",
+  "description": "Colored notes, each pinnable in its own floating window.",
+  "entry": "index.js",
+  "style": "style.css"
+}

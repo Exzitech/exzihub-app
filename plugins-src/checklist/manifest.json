@@ -1,0 +1,10 @@
+{
+  "id": "checklist",
+  "name": "Checklist",
+  "icon": "list-checks",
+  "category": "office",
+  "version": "0.2.1",
+  "description": "Daily and weekly tasks that uncheck themselves, with a floating window.",
+  "entry": "index.js",
+  "style": "style.css"
+}

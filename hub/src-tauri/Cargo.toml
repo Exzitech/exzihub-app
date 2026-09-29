@@ -1,0 +1,37 @@
+[package]
+name = "exzihub"
+version = "0.4.4"
+edition = "2021"
+
+# Bibliotheque : Android la charge directement ; main.rs (bureau) ne fait qu'appeler run().
+[lib]
+name = "exzihub_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+# protocol-asset : affichage de fichiers locaux dans la WebView.
+tauri = { version = "2", features = ["tray-icon", "protocol-asset"] }
+tauri-plugin-dialog = "2"
+# Ouvre la page de connexion Nextcloud dans le navigateur (synchro.rs).
+tauri-plugin-opener = "2"
+# HTTP : synchro WebDAV, catalogue (plugins et hub sur le bureau, APK sur Android).
+ureq = "2"
+# Notification systeme quand un espace surveille recoit du nouveau (synchro.rs, veille).
+tauri-plugin-notification = "2"
+# Empreinte des telechargements du catalogue (telechargement.rs).
+sha2 = "0.10"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# Bureau uniquement (moteurs, catalogue, icone de notification) : voir lib.rs.
+[target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]
+zip = { version = "2", default-features = false, features = ["deflate"] }
+chrono = { version = "0.4", default-features = false, features = ["clock"] }
+tauri-plugin-single-instance = "2"
+
+[profile.release]
+strip = true
+lto = true

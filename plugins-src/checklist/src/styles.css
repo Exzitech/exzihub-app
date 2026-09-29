@@ -1,0 +1,11 @@
+/* Checklist : styles du plugin */
+.chk-page { display: grid; gap: 12px; max-width: 760px; }
+.chk-overlay .chk-page { padding: 4px 2px; }
+.chk-liste { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.chk-liste li { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border: 1px solid var(--border); border-radius: var(--radius); }
+.chk-liste label { flex: 1; display: flex; align-items: center; gap: 10px; cursor: pointer; }
+.chk-liste .chk-nom { flex: 1; }
+.chk-liste .chk-periode { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+.chk-faite .chk-nom { text-decoration: line-through; opacity: .5; }
+.chk-ajout { display: flex; gap: 8px; }
+.chk-ajout input { flex: 1; }

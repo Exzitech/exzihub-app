@@ -1,0 +1,16 @@
+{
+  "id": "verif-liens",
+  "name": "Link Checker",
+  "icon": "link",
+  "category": "other",
+  "version": "0.1.0",
+  "description": "Test a list of URLs and keep only the ones that respond.",
+  "entry": "index.js",
+  "style": "style.css",
+  "port": 8002,
+  "launch": {
+    "command": "pythonw",
+    "args": ["serveur.py"],
+    "cwd": "moteur"
+  }
+}

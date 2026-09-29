@@ -1,0 +1,50 @@
+/* Sticky Notes : styles du plugin */
+
+.note-grille { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 14px; }
+
+.note {
+  display: flex; flex-direction: column; gap: 6px; min-height: 170px;
+  background: var(--panel);
+  border-top: 4px solid var(--note-accent, var(--accent)); border-radius: var(--radius);
+  padding: 6px 10px 10px; box-shadow: var(--shadow-card); }
+.note-libre { width: 240px; max-width: 100%; min-width: 180px; resize: both; overflow: hidden; }
+.note-bar { display: flex; align-items: center; gap: 2px; }
+.note-poignee { cursor: grab; color: var(--muted); padding: 0 2px; user-select: none; }
+.note-couleurs { display: flex; gap: 4px; flex: 1; }
+.note-pastille { width: 14px; height: 14px; border-radius: 50%; padding: 0; border: 1px solid rgba(45, 36, 32, .25); }
+.note-pastille.is-active { outline: 2px solid var(--text); outline-offset: 1px; }
+.note-pastille-jaune { background: var(--alert); }
+.note-pastille-rose { background: #d9899b; }
+.note-pastille-bleu { background: var(--bluegrey); }
+.note-pastille-vert { background: var(--sage); }
+.note-pastille-orange { background: var(--accent-2); }
+.note-pastille-violet { background: #a092c4; }
+.note-jaune { --note-accent: var(--alert); }
+.note-rose { --note-accent: #d9899b; }
+.note-bleu { --note-accent: var(--bluegrey); }
+.note-vert { --note-accent: var(--sage); }
+.note-orange { --note-accent: var(--accent-2); }
+.note-violet { --note-accent: #a092c4; }
+.note-confirm { display: flex; gap: 2px; }
+.note-titre { font-weight: 600; }
+.note-texte { flex: 1; resize: none; min-height: 90px; font: inherit; }
+
+.note-overlay .overlay-body { display: flex; flex-direction: column; padding: 0; }
+/* Fenetre flottante : la note et ses champs suivent l'opacite de la fenetre, sinon le fond plein cacherait ce qu'il y a derriere. */
+.note-overlay .note { flex: 1; min-height: 0; border-radius: 0; border-left-width: 0; border-right-width: 0; border-bottom-width: 0; background: transparent; box-shadow: none; }
+.note-overlay .note-titre, .note-overlay .note-texte { background: transparent; }
+.note-overlay .note-texte { min-height: 0; resize: none; }
+.note-icone { width: 17px; height: 17px; display: block; }
+.note-supprimer { color: var(--muted); padding: 2px 6px; }
+.note-supprimer:hover { color: var(--error-text); background: var(--tint-error); }
+
+/* Images d'une note : vignettes carrees sous le texte, defilement interne si elles sont nombreuses. */
+.note-images { display: flex; flex-wrap: wrap; gap: 4px; max-height: 108px; overflow-y: auto; }
+.note-vignette { width: 48px; height: 48px; object-fit: cover; border-radius: var(--radius-sm); background: var(--panel-2); cursor: zoom-in; }
+.note-vignette-attente { cursor: progress; opacity: .6; }
+.note-vignette-absente { display: flex; align-items: center; justify-content: center; color: var(--muted); cursor: help; }
+/* Plein ecran : fond sombre, image entiere ; un clic a cote ou Echap ferme. */
+.note-plein { position: fixed; inset: 0; z-index: 50; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; background: rgba(0, 0, 0, .82); padding: 16px; }
+.note-plein img { max-width: 100%; max-height: calc(100% - 56px); object-fit: contain; border-radius: var(--radius-sm); }
+.note-plein-actions { display: flex; gap: 8px; }
+

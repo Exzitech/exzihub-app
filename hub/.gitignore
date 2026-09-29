@@ -1,0 +1,10 @@
+node_modules/
+dist/
+src-tauri/target/
+src-tauri/gen/schemas/
+# Ancien executable renomme par npm run release (encore ouvert pendant la copie)
+ExziHub.old.exe
+# Reglages propres a la machine, ecrits par installer.ps1 : le chemin de Python
+# (hub.local.json) et les surcharges de lancement par outil (tools.local.json).
+hub.local.json
+tools.local.json
